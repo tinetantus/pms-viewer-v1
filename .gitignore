@@ -25,3 +25,5 @@ __pycache__/
 /apps/web/public/pdfjs/
 /test-results/
 /playwright-report/
+
+/apps/web/next-env.d.ts

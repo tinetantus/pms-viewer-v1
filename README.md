@@ -59,7 +59,7 @@ Supplied private artwork can be imported explicitly with `node scripts/import-lo
 
 ## Deployment status
 
-Dockerfiles and separate Railway web/worker configuration are in `infra/`. Read [operations](docs/operations.md) before deployment. No Git remote, Railway services, public bucket or deployment has been created. The user will provide destinations. Docker builds and staging recovery still require execution on a Docker-capable host. Renderer network isolation and a backup-restore rehearsal are release requirements.
+Dockerfiles and separate Railway web/worker configuration are in `infra/`. Read [operations](docs/operations.md) before deployment. A GitHub origin is configured; no push, Railway service, public bucket or deployment was performed in this implementation. The user will provide deployment destinations. Docker builds and staging recovery still require execution on a Docker-capable host. Renderer network isolation and a backup-restore rehearsal are release requirements.
 
 PDF screen previews are not certified colour proofs. Flattened marks remain page content. Text extraction and automatic alignment can be uncertain; partial comparisons require human review. Large or difficult documents can hit configured resource limits.
 

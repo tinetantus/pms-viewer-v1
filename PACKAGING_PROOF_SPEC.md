@@ -535,3 +535,7 @@ Consult current primary documentation during implementation; these links do not 
 - Railway documentation: https://docs.railway.com/
 - PDF.js: https://mozilla.github.io/pdf.js/
 - Railway operational skill available in the authoring environment: `C:/Users/tinet/.agents/skills/use-railway/SKILL.md` (machine-specific; not a runtime dependency).
+
+### Final local validation — 2026-10-02
+
+Implementation committed as f593e03. The GitHub origin is now configured as https://github.com/tinetantus/pms-viewer-v1.git; it was observed at final handoff and was not created or pushed by this implementation. Generated Next next-env.d.ts is ignored because dev/build regenerate different type paths. Local web/database/worker remain running for preview; access details are in ignored local-data/development-access.txt. Production smoke passed; Docker/staging/isolation/restore gates remain as recorded above.
