@@ -1,5 +1,11 @@
 # Packaging Proof — Product, Architecture, and Implementation Specification
 
+### Active repair — 2026-10-02: Linux processor memory failure
+
+The supplied 2,986,385-byte, one-page CDS Rev.00 PDF succeeded locally in 1.77–5.06 seconds but failed in Railway. A read-only production diagnostic on the existing failed upload confirmed default native imports create 63 threads and reserve 5,891,352 KiB virtual memory before the renderer applies its 1.5 GiB limit; the processor exits 1 with empty stderr. With native thread pools capped to one, virtual memory is 303,996 KiB and the same PDF succeeds in 841 ms. No artwork or credentials were logged or committed; temporary diagnostic files were removed.
+
+Fix: force BLAS/OpenMP thread counts before native imports, limit OpenCV to one thread, retain existing resource limits, report MemoryError explicitly, and distinguish timeout/signal/exit failures in the worker. Added a synthetic subprocess regression with inherited 64-thread settings. Seven local processor tests, TypeScript checks and worker lint pass. Linux regression, deployment and retry verification pending; temporary Railway diagnostic configuration must be removed after validation.
+
 Version: 1.0
 
 Created: 2026-10-01

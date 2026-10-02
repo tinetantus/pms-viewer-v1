@@ -14,6 +14,8 @@ The Python renderer has a minimal credential-free environment, temporary files, 
 
 ## Health and monitoring
 
+Native processing threads are fixed to one before importing NumPy/OpenCV. Railway hosts can expose many CPUs despite a small container quota; automatic BLAS pools can reserve more virtual memory than the renderer's 1.5 GiB address-space limit. Keep the thread caps and resource limits together. A small compressed PDF can still exercise this limit. Processor failures now distinguish elapsed timeouts, termination signals, exit codes and Python exception types; logs include job ID and elapsed time without artwork text.
+
 `GET /health/live` checks the web process. `/health/ready` checks database migrations and storage availability with bounded connection timeouts. Railway uses readiness for deployment health. Alert on readiness failures, sustained 5xx responses, failed jobs, growing queue age, expired leases, storage failures and memory/CPU exhaustion. Logs identify request/job IDs without printing credentials or original text. Audit events preserve human changes in PostgreSQL.
 
 Jobs heartbeat every 20 seconds with a 90-second lease. Failed processing retries after 15 seconds up to three attempts. Expired leases are reclaimed; exhausted leases become failed. Operators can retry failed/cancelled jobs in project UI. Results publish only while the attempt owns its lease. Cancellation prevents stale publication; an already-running subprocess can continue until it exits/times out. Shutdown drains the current job; forced shutdown relies on lease recovery.

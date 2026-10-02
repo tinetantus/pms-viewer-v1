@@ -97,11 +97,14 @@ async function processJob(job: Job) {
         },
       );
       let error = '';
+      let timedOut = false;
+      const started = Date.now();
       child.stderr.on('data', (chunk) => {
         if (error.length < 2000) error += chunk.toString();
       });
       const timer = setTimeout(
         () => {
+          timedOut = true;
           child.kill('SIGKILL');
         },
         Number(process.env.RENDER_TIMEOUT_SECONDS || 120) * 1000,
@@ -110,10 +113,32 @@ async function processJob(job: Job) {
         clearTimeout(timer);
         reject(e);
       });
-      child.on('close', (code) => {
+      child.on('close', (code, signal) => {
         clearTimeout(timer);
         if (code === 0) resolve();
-        else reject(new Error(error.trim() || 'Processing timed out or was interrupted.'));
+        else {
+          console.error(
+            JSON.stringify({
+              job: job.id,
+              stage: 'processor',
+              status: 'failed',
+              exit_code: code,
+              signal,
+              timed_out: timedOut,
+              elapsed_ms: Date.now() - started,
+            }),
+          );
+          reject(
+            new Error(
+              timedOut
+                ? 'Processing exceeded its time limit. Retry or upload a simpler export.'
+                : error.trim() ||
+                    (signal
+                      ? `Processing was terminated (${signal}). Contact an administrator to check worker resources.`
+                      : `Processing exited with code ${code} without an error message.`),
+            ),
+          );
+        }
       });
     });
     const output = path.join(tmp, 'output');

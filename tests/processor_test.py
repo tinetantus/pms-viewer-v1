@@ -2,6 +2,10 @@ import importlib.util
 import pathlib
 import tempfile
 import unittest
+import json
+import os
+import subprocess
+import sys
 
 from pypdf import PdfWriter
 from pypdf.generic import DictionaryObject, NameObject, DecodedStreamObject, NumberObject, ArrayObject, FloatObject
@@ -27,6 +31,16 @@ def fixture(path, text='SYNTHETIC PACKAGING PROOF', annotation=False, rotation=0
 
 
 class ProcessorTests(unittest.TestCase):
+    def test_bounded_subprocess_with_large_inherited_thread_pool(self):
+        request = self.root / 'request.json'
+        request.write_text(json.dumps({'kind': 'revision', 'source': str(self.a), 'output': str(self.root / 'output')}), encoding='utf-8')
+        # Linux also applies the production address-space limit in __main__.
+        result = subprocess.run([sys.executable, str(ROOT / 'services/processor/process.py'), str(request)], env={**os.environ, 'OPENBLAS_NUM_THREADS': '64', 'OMP_NUM_THREADS': '64', 'MKL_NUM_THREADS': '64'}, capture_output=True, text=True, timeout=30)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        output = json.loads((self.root / 'output/result.json').read_text(encoding='utf-8'))
+        self.assertEqual(len(output['pages']), 1)
+        self.assertTrue((self.root / 'output/page-1.png').is_file())
+
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.root=pathlib.Path(self.tmp.name)
         self.a=self.root/'a.pdf';self.b=self.root/'b.pdf';fixture(self.a);fixture(self.b)

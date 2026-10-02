@@ -6,11 +6,19 @@ import pathlib
 import sys
 import warnings
 
+# Native pools size themselves from host CPUs, not the container CPU quota.
+# Set these before importing NumPy/OpenCV so their virtual-memory reservations
+# fit inside the bounded renderer even on large Railway hosts.
+for variable in ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS"):
+    os.environ[variable] = "1"
+
 import cv2
 import numpy as np
 import pypdfium2 as pdfium
 from PIL import Image
 from pypdf import PdfReader
+
+cv2.setNumThreads(1)
 
 Image.MAX_IMAGE_PIXELS = 40_000_000
 warnings.simplefilter("error", Image.DecompressionBombWarning)
@@ -174,5 +182,6 @@ if __name__ == '__main__':
         result=inspect(request['source'],output) if request['kind']=='revision' else compare(request['before'],request['after'],request['config'],output)
         (output/'result.json').write_text(json.dumps(result,ensure_ascii=False),encoding='utf-8')
     except Exception as error:
-        print(str(error)[:300],file=sys.stderr)
+        message = "Processing exceeded its memory budget." if isinstance(error, MemoryError) else str(error)
+        print(f"{type(error).__name__}: {message}"[:300],file=sys.stderr)
         sys.exit(1)
