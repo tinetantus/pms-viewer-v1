@@ -539,3 +539,18 @@ Consult current primary documentation during implementation; these links do not 
 ### Final local validation — 2026-10-02
 
 Implementation committed as f593e03. The GitHub origin is now configured as https://github.com/tinetantus/pms-viewer-v1.git; it was observed at final handoff and was not created or pushed by this implementation. Generated Next next-env.d.ts is ignored because dev/build regenerate different type paths. Local web/database/worker remain running for preview; access details are in ignored local-data/development-access.txt. Production smoke passed; Docker/staging/isolation/restore gates remain as recorded above.
+
+### Railway repair and deployment — 2026-10-02
+
+User authorized inspecting/fixing the existing deployment and setting both application services to Singapore. Target: project trustworthy-happiness (6814eff2-d72f-4e7e-b183-08c9d5ac8d2b), existing production environment (395977de-7b80-40f7-8513-c65ec685b83c).
+
+Root cause: web root /apps/web excluded shared packages, tsconfig and build tools; worker root /apps/worker contained no standalone package manifest. Both used Railpack and had no application variables. Corrected both roots to / and selected infra/Dockerfile.web / infra/Dockerfile.worker. Railway rejected legacy JSON config-file assignment, so equivalent build/deploy settings were applied directly through its service API. Added private database/bucket references, a newly generated web auth secret, the actual HTTPS APP_URL and PORT=8080 matching the existing domain. AI remains disabled. Database and bucket resources were reused without deleting or moving their data.
+
+Both services explicitly configured with one replica in asia-southeast1-eqsg3a (Singapore); database was already there and bucket is sin. Source commit 523865105363e2e0a5b17fe15cc9c9268dba9eee.
+
+| Service | Deployment ID | Observed result |
+| --- | --- | --- |
+| pms Web | 665fa506-5da6-4cdb-955b-87af9768d560 | SUCCESS; all five migrations applied; live/ready/login HTTP 200; unauthenticated project API HTTP 401 |
+| pms Worker | f4a17bf5-c48c-4acc-9629-7709254fc64e | SUCCESS; pinned Python dependencies installed; Packaging worker ready; no queue errors observed |
+
+URL: https://pms-or-web-production.up.railway.app . No application code modification was required for this repair. Initial administrator onboarding and authenticated deployment workflow checks remain; no production test accounts or private sample artwork were created/uploaded. SSH inspection was unavailable because this client has no registered local SSH key. Full renderer isolation, restore rehearsal and production acceptance remain outstanding. The Railway skill update check skipped locally modified instructions rather than overwriting them.

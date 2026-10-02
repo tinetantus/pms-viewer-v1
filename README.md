@@ -59,7 +59,7 @@ Supplied private artwork can be imported explicitly with `node scripts/import-lo
 
 ## Deployment status
 
-Dockerfiles and separate Railway web/worker configuration are in `infra/`. Read [operations](docs/operations.md) before deployment. A GitHub origin is configured; no push, Railway service, public bucket or deployment was performed in this implementation. The user will provide deployment destinations. Docker builds and staging recovery still require execution on a Docker-capable host. Renderer network isolation and a backup-restore rehearsal are release requirements.
+Web and worker Docker deployments succeeded on Railway on 2026-10-02 in Singapore (`asia-southeast1-eqsg3a`), using the existing production environment. Both build from repository root with their respective Dockerfiles. Live service settings are configured directly because Railway rejected legacy JSON config-file assignment. Web readiness, login and unauthenticated-access checks pass; worker startup is confirmed. See [operations](docs/operations.md) and the specification deployment log. Renderer network isolation, authenticated deployed workflow checks and backup-restore rehearsal remain release requirements.
 
 PDF screen previews are not certified colour proofs. Flattened marks remain page content. Text extraction and automatic alignment can be uncertain; partial comparisons require human review. Large or difficult documents can hit configured resource limits.
 
