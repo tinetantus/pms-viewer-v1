@@ -6,5 +6,16 @@ export default defineConfig([
   ...nextVitals,
   ...nextTs,
   { settings: { next: { rootDir: 'apps/web/' } } },
-  globalIgnores(['**/.next/**', '**/dist/**', '**/next-env.d.ts']),
+  // Authenticated source images must bypass the public image optimization cache.
+  { files: ['apps/web/src/components/**/*.tsx'], rules: { '@next/next/no-img-element': 'off' } },
+  globalIgnores([
+    '**/.next/**',
+    '**/dist/**',
+    '**/next-env.d.ts',
+    '.venv/**',
+    'local-data/**',
+    'artifacts/**',
+    'apps/web/public/pdfjs/**',
+    'test-results/**',
+  ]),
 ]);

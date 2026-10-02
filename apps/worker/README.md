@@ -1,3 +1,3 @@
-# Worker (reserved)
+# Worker
 
-Durable job consumers and orchestration. Queue selection and worker implementation are pending ARCH-01/JOB-01.
+PostgreSQL lease queue coordinator: apps/worker/index.ts. Fetches immutable originals into temporary directories, runs the Python processor with a minimal environment, uploads attempt-specific assets and publishes results only while owning the lease. One job per process; scale replicas for concurrency. See docs/operations.md for limits, retries and deployment isolation requirements.

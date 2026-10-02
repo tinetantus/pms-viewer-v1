@@ -20,3 +20,8 @@ __pycache__/
 *.psd
 *.dump
 *.sql
+!packages/db/migrations/*.sql
+/local-data/
+/apps/web/public/pdfjs/
+/test-results/
+/playwright-report/

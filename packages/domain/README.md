@@ -1,3 +1,3 @@
-# Domain (reserved)
+# Domain
 
-Shared validation, authorization, and state transitions. Implementation pending BASE-02.
+Shared Zod request validation, typed workspace records, optimistic version checks and HTTP domain errors. ai.ts implements the optional bounded multimodal adapter; suggestions cannot mutate issue/review state.

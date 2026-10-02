@@ -1,0 +1,9 @@
+node_modules
+.next
+.venv
+local-data
+artifacts
+apps/web/public/pdfjs
+package-lock.json
+PACKAGING_PROOF_SPEC.md
+test-results

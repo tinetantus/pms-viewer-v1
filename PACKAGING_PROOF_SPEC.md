@@ -375,52 +375,52 @@ Legend: `[ ]` not complete; `[x]` complete with evidence. Track in-progress/bloc
 
 - [x] DOC-01 Consolidate requirements, architecture defaults, acceptance criteria, and live tracker. Evidence: this file, 2026-10-01.
 - [x] DISC-01 Inspect repository/parent instructions; establish Git root, remote, branch, and ignore rules without publishing source artwork. Evidence: child repository pms-viewer-v1, main branch, no remote, .gitignore; 2026-10-01.
-- [ ] DISC-02 Inspect representative local PDFs for dimensions, fonts, languages, native/flattened annotations, and rendering difficulty.
-- [ ] SPIKE-01 Demonstrate high-zoom viewing and correct rectangle coordinates on representative PDFs.
-- [ ] SPIKE-02 Demonstrate aligned before/after comparison and annotated-file exclusion limitations.
+- [x] DISC-02 Inspect representative local PDFs for dimensions, fonts, languages, native/flattened annotations, and rendering difficulty. Evidence: scripts/inspect_pdfs.py and docs/architecture.md; all eight files inspected, local PDFium preview reviewed.
+- [x] SPIKE-01 Demonstrate high-zoom viewing and correct rectangle coordinates on representative PDFs.
+- [x] SPIKE-02 Demonstrate aligned before/after comparison and annotated-file exclusion limitations.
 - [ ] ARCH-01 Finalize auth, renderer, queue, dependency licenses, and pinned stack; record decisions.
 
 ### Phase 1 — Secure application foundation
 
 - [ ] BASE-01 Scaffold monorepo, lint/type checking, Docker/local setup, environment example, and root agent instructions.
-- [ ] BASE-02 Implement database schema/migrations, synthetic seed data, and transactional domain primitives.
-- [ ] AUTH-01 Implement invite-only authentication, account administration, project roles, and access tests.
-- [ ] STORE-01 Implement private storage, validated upload intents/finalization, checksums, and authorized downloads.
-- [ ] JOB-01 Implement durable jobs, progress, retry/leases, temporary-file cleanup, and restart recovery.
+- [x] BASE-02 Implement database schema/migrations, synthetic seed data, and transactional domain primitives.
+- [x] AUTH-01 Implement invite-only authentication, account administration, project roles, and access tests.
+- [x] STORE-01 Implement private storage, validated upload intents/finalization, checksums, and authorized downloads.
+- [x] JOB-01 Implement durable jobs, progress, retry/leases, temporary-file cleanup, and restart recovery.
 
 ### Phase 2 — Projects and proofing viewer
 
-- [ ] PROJ-01 Implement dashboard, project creation/editing, membership, and archive/filter workflows.
-- [ ] REV-01 Implement immutable numbered revisions, notes, page processing, timeline, and failure states.
-- [ ] VIEW-01 Implement crisp PDF/image viewing, thumbnails, zoom/pan, rotation, fullscreen, and keyboard controls.
-- [ ] VIEW-02 Implement side-by-side revision selection and optional synchronized navigation.
-- [ ] VIEW-03 Implement overlay opacity, layer toggles, scale-aware measurement, and unknown-scale handling.
+- [x] PROJ-01 Implement dashboard, project creation/editing, membership, and archive/filter workflows.
+- [x] REV-01 Implement immutable numbered revisions, notes, page processing, timeline, and failure states.
+- [x] VIEW-01 Implement crisp PDF/image viewing, thumbnails, zoom/pan, rotation, fullscreen, and keyboard controls.
+- [x] VIEW-02 Implement side-by-side revision selection and optional synchronized navigation.
+- [x] VIEW-03 Implement overlay opacity, layer toggles, scale-aware measurement, and unknown-scale handling.
 - [ ] VIEW-04 Verify viewer fidelity/performance and coordinate behaviour with representative artwork.
 
 ### Phase 3 — Persistent issues
 
-- [ ] ISSUE-01 Implement rectangle/pin composer, filters, assignment, and click-to-focus.
-- [ ] ISSUE-02 Implement threaded comments, in-app mentions/notifications, and audit history.
-- [ ] ISSUE-03 Implement mark-ready, reviewer verification, reopen, and self-verification restriction.
-- [ ] ISSUE-04 Implement revision anchors, proposed remapping, manual re-anchor, and before/after verification UI.
+- [x] ISSUE-01 Implement rectangle/pin composer, filters, assignment, and click-to-focus.
+- [x] ISSUE-02 Implement threaded comments, in-app mentions/notifications, and audit history.
+- [x] ISSUE-03 Implement mark-ready, reviewer verification, reopen, and self-verification restriction.
+- [x] ISSUE-04 Implement revision anchors, proposed remapping, manual re-anchor, and before/after verification UI.
 
 ### Phase 4 — Change analysis
 
-- [ ] DIFF-01 Implement page mapping, clean rendering, alignment, geometry-change reporting, and visual masks.
-- [ ] DIFF-02 Implement text extraction/comparison, coverage reporting, and image/outlined-text fallback behaviour.
-- [ ] DIFF-03 Implement native-annotation handling, visible exclusions, and partial/uncertain results.
-- [ ] AI-01 Implement configurable multimodal adapter, structured output, bounded inputs, usage tracking, and outage fallback.
-- [ ] AI-02 Implement grounded descriptions and suggested issue matching without automatic state changes.
-- [ ] DIFF-04 Implement findings sidebar, crops/highlights, dispositions, and create/link issue actions.
+- [x] DIFF-01 Implement page mapping, clean rendering, alignment, geometry-change reporting, and visual masks.
+- [x] DIFF-02 Implement text extraction/comparison, coverage reporting, and image/outlined-text fallback behaviour.
+- [x] DIFF-03 Implement native-annotation handling, visible exclusions, and partial/uncertain results.
+- [x] AI-01 Implement configurable multimodal adapter, structured output, bounded inputs, usage tracking, and outage fallback.
+- [x] AI-02 Implement grounded descriptions and suggested issue matching without automatic state changes.
+- [x] DIFF-04 Implement findings sidebar, crops/highlights, dispositions, and create/link issue actions.
 - [ ] DIFF-05 Evaluate known-change fixtures; document missed changes, noise, and processing performance.
 
 ### Phase 5 — Approval and release quality
 
-- [ ] REVIEW-01 Implement review-round snapshots, required scope assignments, and reviewer decisions.
-- [ ] REVIEW-02 Implement transactional approval gates, manual-comparison fallback, supersession, and approved original download.
-- [ ] QA-01 Pass critical end-to-end journey, authorization, concurrency, and worker recovery tests.
+- [x] REVIEW-01 Implement review-round snapshots, required scope assignments, and reviewer decisions.
+- [x] REVIEW-02 Implement transactional approval gates, manual-comparison fallback, supersession, and approved original download.
+- [x] QA-01 Pass critical end-to-end journey, authorization, concurrency, and worker recovery tests.
 - [ ] QA-02 Complete browser visual/accessibility checks and resolve material fidelity defects.
-- [ ] OPS-01 Document configuration, local setup, retention, backup/restore, monitoring, and rollback.
+- [x] OPS-01 Document configuration, local setup, retention, backup/restore, monitoring, and rollback.
 
 ### Phase 6 — Railway deployment
 
@@ -432,27 +432,34 @@ Legend: `[ ]` not complete; `[x]` complete with evidence. Track in-progress/bloc
 
 ## 14. Active work and handoff
 
-Last updated: 2026-10-01
+Last updated: 2026-10-02
 
 | Task | State | Owner | Next action / blocker |
 | --- | --- | --- | --- |
 | DOC-01 | Complete | Specification agent | Document created; no application implementation performed |
 | DISC-01 | Complete | Codex | Child repository initialized on main with no remote; source artwork remains outside repository |
-| BASE-01 | Partially complete | Codex | Initial configuration validated; Docker and local services remain pending |
+| BASE-01 | Partially complete | Codex | Local services and Docker/Railway configuration authored; Docker execution unavailable on this host |
+| DISC-02 | Complete | Codex | Eight A3 PDFs inspected; native Thai/Latin text; no native annotations; flattened marks remain |
+| SPIKE-01 / SPIKE-02 | Complete | Codex | Four supplied proofs rendered at fit/400%; all four comparison pairs processed with explicit partial coverage |
+| BASE-02 / AUTH-01 | Complete | Codex | Five migrations, real-session integration, single-use invitations, disabled accounts and access tests pass |
+| ISSUE-04 / PROJ-01 | Complete | Codex | Proposed anchors/rejection/manual mapping, atomic finding links, mentions and access removal validated |
+| QA-01 | Complete locally | Codex | Critical journey, authorization, concurrency, worker recovery and anchor lifecycle checks pass |
+| QA-02 | Partial | Codex | Chrome visual checks and keyboard dialog tests pass; broader accessibility and performance coverage remains |
+| DEPLOY-01 | Awaiting user setup | User | User will set up destinations and provide them; no provisioning or publication |
 
-Workspace observation: parent directory contains the original specification and private sample directory. This child directory is the local Git root on main with no remote. Sample contents remain uninspected. No applicable ancestor AGENTS.md was found. This repository copy is now the canonical implementation tracker; preserve the parent specification as the original reference.
+Workspace observation: parent directory contains the original specification and private sample directory. This child directory is the local Git root on main with no remote. All eight sample PDFs have now been inspected and rendered locally; observations and limitations are in docs/architecture.md. No applicable ancestor AGENTS.md was found. This repository copy is now the canonical implementation tracker; preserve the parent specification as the original reference.
 
-Next recommended sequence: DISC-01 -> DISC-02 -> SPIKE-01/SPIKE-02 -> ARCH-01 -> BASE-01. Establish viewer fidelity and annotation handling before investing in the full workflow UI.
+Current sequence: finish expanded workflow validation and accessibility checks; review dependency licences and renderer isolation; build Docker images on a compatible host; deploy staging only after the user supplies Git/Railway destinations.
 
 ### Open decisions
 
 | ID | Decision | Working default / when needed |
 | --- | --- | --- |
-| O-01 | Git host/repository and Railway workspace | Unspecified; resolve before publication/provisioning |
+| O-01 | Git host/repository and Railway workspace | User will set up and provide destinations; continue local work |
 | O-02 | AI provider, budget, artwork transmission policy | Provider adapter; AI disabled until configured |
 | O-03 | Actual languages and file limits | Inspect supplied files; proposed 100 MB/50-page ceiling |
 | O-04 | Required reviewers and self-verification policy | All assigned required reviewers; no self-verification |
-| O-05 | Authentication source | Invite-only accounts initially; select maintained library |
+| O-05 | Authentication source | Resolved: Better Auth invite-only sessions; D-008 |
 | O-06 | Retention and recovery objectives | Preserve originals/history; confirm retention and recovery targets before production |
 | O-07 | Physical size/colour requirements | PDF dimensions plus confirmed scale; no certified colour proof |
 
@@ -466,6 +473,10 @@ Next recommended sequence: DISC-01 -> DISC-02 -> SPIKE-01/SPIKE-02 -> ARCH-01 ->
 | 2026-10-01 | D-004 | PDF-first, no source artwork editing | Focus first release on reliable review and revision tracking |
 | 2026-10-01 | D-005 | Start configuration in pms-viewer-v1 using npm workspaces and Node 24.14.1/npm 11.11.0 | User requested child repository and initial config; exact web/tooling dependencies and lockfile; auth, ORM, renderer and queue choices remain pending ARCH-01 |
 | 2026-10-01 | D-006 | Pin ESLint 9.39.5 temporarily | ESLint 10.11.0 fails with bundled eslint-plugin-react getFilename API; v9 passes but npm marks it unsupported. Revisit with plugin upgrade. Next/React/Tailwind/ESLint packages report MIT; TypeScript reports Apache-2.0. Full dependency/license review remains ARCH-01. |
+| 2026-10-02 | D-007 | node-postgres + versioned SQL replaces proposed Prisma default | Shared transaction model for Better Auth, composite constraints, explicit project locks and durable PostgreSQL queue; see docs/architecture.md |
+| 2026-10-02 | D-008 | Better Auth sessions with public signup disabled; expiring administrator-issued invitations | No bespoke password/session cryptography; account creation uses library hashing |
+| 2026-10-02 | D-009 | PDFium/Pillow/OpenCV processor and viewport-sized PDF.js canvases | Bounded rendering and deterministic evidence; annotations separate; supplied review marks are flattened |
+| 2026-10-02 | D-010 | Loopback embedded PostgreSQL for local checks, private filesystem adapter for development | Docker absent locally; deployment remains PostgreSQL + private S3; development credentials are random and ignored |
 
 ### Validation log
 
@@ -476,6 +487,18 @@ Next recommended sequence: DISC-01 -> DISC-02 -> SPIKE-01/SPIKE-02 -> ARCH-01 ->
 | 2026-10-01 | Initial configuration | npm run check | PASS: ESLint, strict TypeScript, Next.js production build |
 | 2026-10-01 | Production smoke | npm start -- --port 3107; HTTP requests to / and /health/live | PASS: home HTTP 200 with scaffold text, liveness status ok; server stopped after checks |
 | 2026-10-01 | Dependencies and ignores | npm install; git check-ignore | Install audit reported zero vulnerabilities; local env files, sample PDFs, private assets and uploads ignored |
+| 2026-10-02 | Processor fixtures | .venv/Scripts/python.exe tests/processor_test.py | Six tests pass: identical, text/pixels, native annotation exclusion, reduced coverage, rotation metadata, encrypted rejection |
+| 2026-10-02 | Coordinates | node --import tsx --test tests/geometry.test.ts | Two tests pass: all right-angle rotations, reverse drag, out-of-page rejection |
+
+### Implementation handoff — 2026-10-02
+
+The application now has persisted project/revision/issue/review workflows, private local/S3 adapters, PostgreSQL queue processing, PDF.js viewing, deterministic PDFium comparisons, and a disabled-by-default bounded AI adapter. README.md describes reproducible setup; docs/operations.md covers deployment and operational requirements. The initial configuration handoff below is historical, not current status.
+
+Validation: npm run check passed after the first implementation and again after expanded filters; six processor fixtures and six geometry/AI/mapping tests pass. Real-session integration passed immutable concurrent finalization, worker processing, permissions/CSRF, self-verification denial, comparison disposition gates, all required approvals, stale decisions and new-revision isolation. Collaboration checks passed replies, author-only edit history, invitations, account disable and preserved original anchors. Recovery checks passed expired lease reclaim, exhausted attempts, retry and cancellation. Chrome checks passed login, draw/save/rotate annotations, 400% bounded rendering, split/mobile screenshots and dialog focus containment/restoration. New linking checks passed atomic issue creation, duplicate prevention, foreign-ID rejection, targeted mentions and membership removal/restoration. Final regression passed after proposed-anchor changes, including the real worker proposing an anchor, reviewer rejection/replacement and preservation of the original. Lint, strict web/tool TypeScript and production build pass. Production-server smoke passed on port 3107: live/ready/login HTTP 200 and unauthenticated project access HTTP 401. The production process was stopped and the local development preview restarted on port 3000.
+
+All four private sample comparisons returned partial coverage, with 66/64/69/70 findings respectively for CDC/CDL/CDO/CDS. Alignment confidence was low (0.141–0.166), so no translation was silently applied. The processor preserves evidence and flags uncertainty; this is not a semantic correctness or diff-recall certification. Local screenshot evidence is ignored and never committed.
+
+Unchecked items remain intentional: Docker images have not been built on this Docker-less host; full dependency licence review, hostile-document network isolation, broader accessibility/performance evaluation, missed-change benchmarking and a real backup restore/staging rehearsal remain. Native annotations are excluded; flattened proof marks require clean exports or explicit exclusions. No live AI calls, remote publication or Railway mutations occurred. The user will set up Git/Railway destinations. Core local checks do not imply production readiness.
 
 ### Configuration handoff — 2026-10-01
 

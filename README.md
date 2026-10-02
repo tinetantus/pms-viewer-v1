@@ -1,35 +1,68 @@
 # PMS Viewer v1
 
-Self-hosted packaging artwork review based on [the product specification](PACKAGING_PROOF_SPEC.md).
+Private packaging proofing with immutable revisions, precise PDF/image annotations, deterministic comparison, and revision-bound Marketing/QA approval. The canonical implementation tracker is [PACKAGING_PROOF_SPEC.md](PACKAGING_PROOF_SPEC.md).
 
-## Local development
+## Local setup
 
-Install Node.js 24.14.1 and npm 11.11.0, then run from this repository:
+Requires Node 24.14.1, npm 11 and Python 3.11+. Run from the repository root in PowerShell:
 
-```sh
+```powershell
 npm ci
+python -m venv .venv
+.venv/Scripts/python.exe -m pip install -r services/processor/requirements.txt
+npm run local:setup
+npm run local:db
+```
+
+Keep the database terminal running. In another terminal:
+
+```powershell
+npm run db:migrate
+$env:PMS_ADMIN_PASSWORD = '<choose a unique password of at least 12 characters>'
+npm run admin:create -- you@example.com 'Your Name'
+Remove-Item Env:PMS_ADMIN_PASSWORD
 npm run dev
 ```
 
-Open http://localhost:3000. The current page is a scaffold, not a review workflow. No credentials or services are required yet. Future integrations use the variables documented in .env.example; copy it to apps/web/.env.local when needed. Never expose server secrets with NEXT_PUBLIC_ prefixes.
+Start `npm run worker` in a third terminal. Open http://localhost:3000 and sign in. Create a project, upload artwork, then invite colleagues and assign project capabilities/scopes. The initial-admin command only works before an administrator exists. For later users, generate invitation links from the dashboard and share them yourself.
 
-## Validation
+On Linux/macOS use `.venv/bin/python` and shell-appropriate environment assignment. The setup helper generates ignored random credentials and private storage paths; it preserves an existing `.env`. Keep `.env` and `apps/web/.env.local` consistent when changing web settings. The worker reads root `.env`; Next reads the web copy.
 
-```sh
+## Implemented workflows
+
+- Invite-only sessions, organization/project access, account enable/disable, project creation/edit/archive and membership.
+- Validated uploads with immutable storage keys, checksums, numbered revisions, thumbnails, durable background processing and retries/cancellation.
+- Viewport-sized PDF.js rendering, images, zoom/pan/rotation, side-by-side navigation, overlay opacity, layers and physical measurement from PDF units.
+- Rectangle/pin issues, category/severity/assignee filters, threaded replies, edit history, notifications, correction/verification/reopen and manual revision anchors.
+- Pixel/text differences, conservative page mapping, alignment, evidence crops, exclusion regions, uncertainty reporting and human dispositions.
+- Required Marketing/QA review snapshots, concurrency checks, blocking-issue gates, explicit manual comparison fallback and historical approvals.
+- Optional bounded OpenAI descriptions/issue suggestions. Off by default; requires explicit artwork transmission consent and configured call/token limits. No AI request was made during local validation.
+
+## Checks
+
+```powershell
 npm run check
-npm start
+npm test
+.venv/Scripts/python.exe tests/processor_test.py
+npm run test:integration
+node --env-file=.env --import tsx tests/collaboration.test.ts
+node --env-file=.env --import tsx tests/findings.test.ts
+node --env-file=.env --import tsx tests/anchor-workflow.test.ts
+node --env-file=.env --import tsx tests/recovery.test.ts
+npm run test:browser
+node tests/dialog-check.mjs
 ```
 
-The check runs ESLint, TypeScript, and a production build. GET /health/live checks the web process only. Database/storage readiness is pending. PORT is respected by Next.js; the web service binds all interfaces.
+Integration/browser checks require the local database, web server and worker. They create disposable synthetic organizations/accounts; credentials are written only to ignored `local-data/test-accounts.json`. Browser checks require installed Google Chrome. Processor tests generate synthetic PDFs in ignored artifacts. Tests must never target production.
 
-## Structure and status
+Supplied private artwork can be imported explicitly with `node scripts/import-local-samples.mjs ../sample` after integration fixtures exist. It stays local and is excluded from Git. Optional sample visual checks use `tests/sample-check.mjs`; see tests/README.md.
 
-apps/web contains the runnable Next.js shell. apps/worker, packages/domain, packages/db, packages/viewer, services/processor, tests, and infra reserve the specification's boundaries. Their README files describe pending implementation.
+## Deployment status
 
-Authentication, database, uploads, viewer, queue, AI, and deployment are pending. AI defaults off. The Git repository is local on main with no remote. Parent sample artwork stays outside this repository.
+Dockerfiles and separate Railway web/worker configuration are in `infra/`. Read [operations](docs/operations.md) before deployment. No Git remote, Railway services, public bucket or deployment has been created. The user will provide destinations. Docker builds and staging recovery still require execution on a Docker-capable host. Renderer network isolation and a backup-restore rehearsal are release requirements.
 
-Next: inspect representative PDFs and perform viewer/comparison spikes, then choose auth/renderer/queue dependencies. Docker and local database setup remain part of BASE-01.
+PDF screen previews are not certified colour proofs. Flattened marks remain page content. Text extraction and automatic alignment can be uncertain; partial comparisons require human review. Large or difficult documents can hit configured resource limits.
 
-Framework setup reference: [Next.js installation](https://nextjs.org/docs/app/getting-started/installation). Dependencies are pinned exactly in package manifests and package-lock.json.
+Tooling note: ESLint 9.39.5 is pinned because the React plugin bundled with eslint-config-next 16.3.8 fails under ESLint 10 (`getFilename`). npm marks ESLint 9 unsupported; revisit when the plugin supports ESLint 10.
 
-Tooling limitation: ESLint 9.39.5 is pinned for compatibility with the React plugin bundled by eslint-config-next 16.3.8. npm marks ESLint 9 unsupported. ESLint 10.11.0 was tested and fails on the plugin's removed getFilename API; revisit this pin when the bundled plugin supports ESLint 10.
+Stop the development server before running a production build/start smoke test; both use the same Next output directory.

@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": { "types": ["node"] },
+  "include": ["packages/**/*.ts", "scripts/**/*.ts", "apps/worker/**/*.ts", "tests/**/*.ts"],
+  "exclude": ["node_modules", ".venv"]
+}
